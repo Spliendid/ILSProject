@@ -10,20 +10,21 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 [Serializable]
-class ObjInfo_Transform:ObjInfoBase
+class ObjInfo_Transform : ObjInfoBase
 {
     #region MyRegion
-
+    public bool isActive;
     public Vector3 Local_Pos;
     public Vector3 Local_Euler;
     public Vector3 Local_Scale;
     #endregion
 
-    public override void GetInfo(GameObject go) 
+    public override void GetInfo(GameObject go)
     {
         Local_Pos = go.transform.localPosition;
         Local_Euler = go.transform.localEulerAngles;
         Local_Scale = go.transform.localScale;
+        isActive = go.activeSelf;
         this.MainObjID = go.GetComponent<ObjID>().ID;
     }
 
@@ -33,5 +34,6 @@ class ObjInfo_Transform:ObjInfoBase
         go.transform.localPosition = this.Local_Pos;
         go.transform.localRotation = Quaternion.Euler(this.Local_Euler);
         go.transform.localScale = this.Local_Scale;
+        go.SetActive(isActive);
     }
 }

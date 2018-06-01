@@ -14,12 +14,12 @@ public class ILSItem : MonoBehaviour {
     [EnumFlagsAttribute]
     public E_ILSTYPE _type;//需要存储的类型可多选
 
-    private List<JsonTransClass> StrInfoList = new List<JsonTransClass>();//该对象需要存储的信息集合
+    private List<JsonTransClass> StrInfoList;//该对象需要存储的信息集合
 
     //获取信息存到StrInfoList里面
     public void GetObjInfo()
     {
-
+        StrInfoList = new List<JsonTransClass>();
         //父物体信息存储
         if ((_type & E_ILSTYPE.Parent) == E_ILSTYPE.Parent)
         {
@@ -54,14 +54,15 @@ public class ILSItem : MonoBehaviour {
             return;
         }
         GetObjInfo();
+        List<JsonTransClass> listTemp = new List<JsonTransClass>(StrInfoList);
         string key = step.ToString();
         if (ILSData.SaveDic.ContainsKey(key))
         {
-            ILSData.SaveDic[key].AddRange(StrInfoList);
+            ILSData.SaveDic[key].AddRange(listTemp);
         }
         else
         {
-            ILSData.SaveDic.Add(key, StrInfoList);
+            ILSData.SaveDic.Add(key, listTemp);
         }
     }
     #region Mono
