@@ -11,17 +11,20 @@ using System.Collections;
 using System.Collections.Generic;
 [RequireComponent(typeof(ObjID))]
 public class ILSItem : MonoBehaviour {
+
     [EnumFlagsAttribute]
     public E_ILSTYPE _type;//需要存储的类型可多选
 
-    private List<JsonTransClass> StrInfoList;//该对象需要存储的信息集合
+    public MatInfo[] MatInfoArray; 
+
+    private List<JsonTransClass> StrInfoList = new List<JsonTransClass>();//该对象需要存储的信息集合
 
     //获取信息存到StrInfoList里面
     public void GetObjInfo()
     {
-        StrInfoList = new List<JsonTransClass>();
+        StrInfoList.Clear();
         //父物体信息存储
-        if ((_type & E_ILSTYPE.Parent) == E_ILSTYPE.Parent)
+        if ((_type & E_ILSTYPE.Parent)!=0)
         {
             ObjInfo_Parent objinfo = new ObjInfo_Parent();
             JsonTransClass jsonTrans = new JsonTransClass();
@@ -29,7 +32,7 @@ public class ILSItem : MonoBehaviour {
         }
 
         //TransformInfo信息存储
-        if ((_type & E_ILSTYPE.TransformInfo) == E_ILSTYPE.TransformInfo)
+        if ((_type & E_ILSTYPE.TransformInfo)!=0)
         {
             ObjInfo_Transform objinfo = new ObjInfo_Transform();
             JsonTransClass jsonTrans = new JsonTransClass();
@@ -37,11 +40,20 @@ public class ILSItem : MonoBehaviour {
         }
 
         //Mesh显示隐藏
-        if ((_type & E_ILSTYPE.MeshRender) == E_ILSTYPE.MeshRender)
+        if ((_type & E_ILSTYPE.MeshRender)!=0)
         {
             ObjInfo_MeshRender objinfo = new ObjInfo_MeshRender();
             JsonTransClass jsonTrans = new JsonTransClass();
             StrInfoList.Add(objinfo.SaveInfo<ObjInfo_MeshRender>(gameObject));
+        }
+
+    
+        //StepItem材质球信息
+        if ((_type & E_ILSTYPE.MatInfo) != 0)
+        {
+            ObjInfo_Mat objinfo = new ObjInfo_Mat();
+            JsonTransClass jsonTrans = new JsonTransClass();
+            StrInfoList.Add(objinfo.SaveInfo<ObjInfo_Mat>(gameObject));
         }
     }
 
@@ -54,7 +66,7 @@ public class ILSItem : MonoBehaviour {
             return;
         }
         GetObjInfo();
-        List<JsonTransClass> listTemp = new List<JsonTransClass>(StrInfoList);
+         List<JsonTransClass> listTemp = new List<JsonTransClass>( StrInfoList);
         string key = step.ToString();
         if (ILSData.SaveDic.ContainsKey(key))
         {

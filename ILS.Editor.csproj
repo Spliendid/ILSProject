@@ -99,7 +99,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Editor\EnumFlagsAttributeDrawer.cs" />
+    <Compile Include="Assets\Sctipts\ObjInfoSave\Editor\FindObjWindow.cs" />
+    <Compile Include="Assets\Sctipts\ObjInfoSave\Editor\IDObjEditor.cs" />
+    <Compile Include="Assets\Sctipts\ObjInfoSave\Editor\IDObjTool.cs" />
+    <Compile Include="Assets\Sctipts\ObjInfoSave\Editor\ILSItemEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\ILS\txt.txt" />

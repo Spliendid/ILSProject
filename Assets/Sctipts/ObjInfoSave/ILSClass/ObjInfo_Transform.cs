@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 [Serializable]
-class ObjInfo_Transform : ObjInfoBase
+class ObjInfo_Transform:ObjInfoBase
 {
     #region MyRegion
     public bool isActive;
@@ -19,7 +19,7 @@ class ObjInfo_Transform : ObjInfoBase
     public Vector3 Local_Scale;
     #endregion
 
-    public override void GetInfo(GameObject go)
+    public override void GetInfo(GameObject go) 
     {
         Local_Pos = go.transform.localPosition;
         Local_Euler = go.transform.localEulerAngles;

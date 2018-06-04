@@ -23,6 +23,7 @@ public enum E_ILSTYPE
     Parent = 2,//父物体信息
     MeshRender = 4,//MeshRender开关
     StepItem = 8,//StepItem信息
+    MatInfo = 16,//材质信息
 }
 
 public class ILSData
@@ -32,7 +33,7 @@ public class ILSData
     //public static Dictionary<int, List<ObjInfoBase>> InfoDic = new Dictionary<int, List<ObjInfoBase>>();
 
     //保存时的字典
-    public static Dictionary<string, List<JsonTransClass>> SaveDic ;
+    public static Dictionary<string, List<JsonTransClass>> SaveDic;
 }
 //盛放Json数据类
 [System.Serializable]

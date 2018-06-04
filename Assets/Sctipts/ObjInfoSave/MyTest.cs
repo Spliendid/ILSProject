@@ -19,29 +19,29 @@ public class MyTest : MonoBehaviour {
     {
         ILSManager._Instance.WriteAllTXT();
     }
-    //[ContextMenu("HashCode")]
-    //private void HashCode()
-    //{
-    //    Debug.Log(gameObject.GetHashCode());
-    //}
-    //[ContextMenu("测试JSON")]
-    //private void LitJsonTest()
-    //{
+    [ContextMenu("HashCode")]
+    private void HashCode()
+    {
+        Debug.Log(gameObject.GetHashCode());
+    }
+    [ContextMenu("测试JSON")]
+    private void LitJsonTest()
+    {
 
-    //    Dictionary<string, string> testDic = new Dictionary<string, string>();
-    //    testDic.Add("aa", "123");
-    //    testDic.Add("bb", "sss");
-    //    P p = new P();
-    //    p.t = 1;
-    //    p.dic = testDic;
-    //    Debug.Log(JsonMapper.ToJson(p));
+        Dictionary<string, string> testDic = new Dictionary<string, string>();
+        testDic.Add("aa", "123");
+        testDic.Add("bb", "sss");
+        P p = new P();
+        p.t = 1;
+        p.dic = testDic;
+        Debug.Log(JsonMapper.ToJson(p));
 
-    //    Dictionary<string  , List<TestClass>> dic = new Dictionary<string , List<TestClass>>();
-    //    dic.Add("1",new List<TestClass> { new TestClass("11", 1) });
-    //    //ClassDic _dic = new ClassDic();
-    //    //_dic.dic = dic;
-    //    Debug.Log(JsonMapper.ToJson(dic));
-    //}
+        Dictionary<string  , List<TestClass>> dic = new Dictionary<string , List<TestClass>>();
+        dic.Add("1",new List<TestClass> { new TestClass("11", 1) });
+        //ClassDic _dic = new ClassDic();
+        //_dic.dic = dic;
+        Debug.Log(JsonMapper.ToJson(dic));
+    }
     [ContextMenu("加载步骤")]
     private void LoadStep()
     {
