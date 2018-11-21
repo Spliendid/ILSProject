@@ -70,8 +70,8 @@
     <Compile Include="Assets\Sctipts\ObjInfoSave\ILSClass\ObjID.cs" />
     <Compile Include="Assets\Sctipts\ObjInfoSave\ILSClass\ObjInfoBase.cs" />
     <Compile Include="Assets\Sctipts\ObjInfoSave\ILSClass\ObjInfo_Mat.cs" />
-    <Compile Include="Assets\Sctipts\ObjInfoSave\ILSClass\ObjInfo_MeshRender.cs" />
     <Compile Include="Assets\Sctipts\ObjInfoSave\ILSClass\ObjInfo_Parent.cs" />
+    <Compile Include="Assets\Sctipts\ObjInfoSave\ILSClass\ObjInfo_Render.cs" />
     <Compile Include="Assets\Sctipts\ObjInfoSave\ILSClass\ObjInfo_Transform.cs" />
     <Compile Include="Assets\Sctipts\ObjInfoSave\ILSData.cs" />
     <Compile Include="Assets\Sctipts\ObjInfoSave\ILSItem.cs" />

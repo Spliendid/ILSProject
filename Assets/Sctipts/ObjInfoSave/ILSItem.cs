@@ -42,9 +42,9 @@ public class ILSItem : MonoBehaviour {
         //Mesh显示隐藏
         if ((_type & E_ILSTYPE.MeshRender)!=0)
         {
-            ObjInfo_MeshRender objinfo = new ObjInfo_MeshRender();
+            ObjInfo_Render objinfo = new ObjInfo_Render();
             JsonTransClass jsonTrans = new JsonTransClass();
-            StrInfoList.Add(objinfo.SaveInfo<ObjInfo_MeshRender>(gameObject));
+            StrInfoList.Add(objinfo.SaveInfo<ObjInfo_Render>(gameObject));
         }
 
     

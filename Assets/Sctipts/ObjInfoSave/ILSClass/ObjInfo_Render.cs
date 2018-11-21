@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 [Serializable]
-class ObjInfo_MeshRender: ObjInfoBase
+class ObjInfo_Render: ObjInfoBase
 {
     #region MyRegion
     public bool IsMeshRender = true;
@@ -15,7 +15,7 @@ class ObjInfo_MeshRender: ObjInfoBase
         this.MainObjID = go.GetComponent<ObjID>().ID;
         try
         {
-            IsMeshRender = go.GetComponent<MeshRenderer>().enabled;
+            IsMeshRender = go.GetComponent<Renderer>().enabled;
             IsAnimation = go.GetComponent<Animation>().enabled;
         }
         catch (Exception)
@@ -31,7 +31,7 @@ class ObjInfo_MeshRender: ObjInfoBase
         {
             GameObject go = mainObj;
 
-            go.GetComponent<MeshRenderer>().enabled = IsMeshRender;
+            go.GetComponent<Renderer>().enabled = IsMeshRender;
             go.GetComponent<Animation>().enabled = IsAnimation;
         }
         catch (Exception)
