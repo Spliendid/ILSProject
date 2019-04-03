@@ -9,7 +9,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-[RequireComponent(typeof(ObjID))]
+[RequireComponent(typeof(ObjID)), DisallowMultipleComponent]
 public class ILSItem : MonoBehaviour {
 
     [EnumFlagsAttribute]
