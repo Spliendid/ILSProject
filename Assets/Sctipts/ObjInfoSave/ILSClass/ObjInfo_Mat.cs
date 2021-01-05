@@ -7,35 +7,37 @@ using LitJson;
 class ObjInfo_Mat : ObjInfoBase
 {
     #region MyRegion
-    public string MatArray;
+    public MatInfo[] MatArray;
+
+    public override E_ILSTYPE ILSTYPE => E_ILSTYPE.MatInfo;
+
     #endregion
+
 
     public override void GetInfo(GameObject go)
     {
         this.MainObjID = go.GetComponent<ObjID>().ID;
         try
         {
-            var array = go.GetComponent<ILSItem>().MatInfoArray;
-            foreach (var item in array)
+            MatArray = go.GetComponent<ILSItem>().MatInfoArray;
+            foreach (var item in MatArray)
             {
                 item.GetValue(go);
             }
-            MatArray = JsonMapper.ToJson(array);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-
+            Debug.Log(MainObjID+":"+e.StackTrace,mainObj);
         }
 
     }
 
-    public override void LoadInfo()
+    public override void loadInfo()
     {
-            GameObject go = mainObj;
+        GameObject go = mainObj;
         try
         {
-            MatInfo[] array = JsonMapper.ToObject<MatInfo[]>(MatArray);
-            foreach (var item in array)
+            foreach (var item in MatArray)
             {
                 item.SetValue(mainObj);
             }

@@ -13,28 +13,19 @@ public class IDObjEditor : Editor
 
     private void Awake()
     {
-      
-        Debug.Log("Awake");
     }
     private void OnEnable()
     {
         _SerObj = new SerializedObject(target);
         ID = _SerObj.FindProperty("ID");
         _Objid = target as ObjID;
-        //_Objid.InitID();
-        //_Objid.AddThis();
-        Debug.Log("OnEnable");
     }
 
     private void OnSceneGUI()
     {
-       
     }
-
     private void OnDestroy()
     {
-     
-        Debug.Log("OnDestroy");
     }
 
     //重写Inspector检视面板
@@ -43,7 +34,6 @@ public class IDObjEditor : Editor
        _SerObj.Update();
         EditorGUILayout.PropertyField(ID);
         _SerObj.ApplyModifiedProperties();
-    //    _Objid.testBool = EditorGUILayout.Toggle("TestToogle", _Objid.testBool);
         //EditorUtility.SetDirty(target);
         if (GUI.changed)
         {

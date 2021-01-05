@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 //物体唯一ID
-[Serializable, ExecuteInEditMode, DisallowMultipleComponent]
+[Serializable,ExecuteInEditMode,DisallowMultipleComponent]
 public class ObjID : MonoBehaviour
 {
 
@@ -29,13 +29,20 @@ public class ObjID : MonoBehaviour
         {
             return false;
         }
+        //字典中存在该物体
+        if(ObjID.ObjIDDic.ContainsValue(obj))
+        {
+            Debug.Log(obj.name +"<color=greed>"+ GetIDByObj(obj).ToString()+"</color>"+ "<color=red>ID已存在</color>",obj);
+            return false;
+        }
+        //字典中存在该id
         if (ObjIDDic.ContainsKey(_ID))
         {
-            if (ObjIDDic[_ID] != obj)
+            if (ObjIDDic[_ID]!=obj)
             {
                 try
                 {
-                    Debug.Log(obj.name + "<color=greed>" + _ID.ToString() + "</color>" + "<color=red>ID已存在</color>" + GetObjByID(_ID).name);
+                    Debug.Log(obj.name +"<color=greed>"+_ID.ToString()+"</color>"+ "<color=red>ID已存在</color>"+GetObjByID(_ID).name,obj);
 
                 }
                 catch (Exception)
@@ -76,23 +83,23 @@ public class ObjID : MonoBehaviour
 
     #region 改
 
-    public bool UpdateObj(int id, GameObject obj)
+    public bool  UpdateObj(int id,GameObject obj)
     {
         if (ObjIDDic.ContainsKey(id))
         {
-            if (ObjIDDic[id] != obj)
+            if (ObjIDDic[id]!=obj)
             {
                 Debug.Log(obj.name + "<color=greed>" + id.ToString() + "</color>" + "<color=red>ID已存在</color>" + GetObjByID(id).name);
             }
-            return false;
-
+            return  false;
+            
         }
         if (ObjIDDic.ContainsValue(obj))//如果这个obj，先删除
         {
             DelObjIDDic(obj);
         }
 
-        AddDic(id, obj);
+        AddDic(id,obj);
         return true;
     }
 
@@ -116,7 +123,7 @@ public class ObjID : MonoBehaviour
         return null;
     }
 
-    public static T GetObjByID<T>(int _id) where T : Component
+    public static T GetObjByID<T>(int _id) where T: Component
     {
         if (_id == 0)
         {
@@ -126,7 +133,7 @@ public class ObjID : MonoBehaviour
         {
             return ObjIDDic[_id].GetComponent<T>();
         }
-        Debug.Log(_id.ToString() + "<color=red>Wrong OBJ ID</color>");
+        Debug.Log(_id.ToString()+"<color=red>Wrong OBJ ID</color>");
         return null;
     }
 
@@ -146,7 +153,6 @@ public class ObjID : MonoBehaviour
     //使用迭代器
     public static int GetIDByObj(GameObject go)
     {
-
         if (ObjIDDic.ContainsValue(go))
         {
             var enumerator = ObjIDDic.GetEnumerator();
@@ -163,7 +169,6 @@ public class ObjID : MonoBehaviour
     //检查ID是否有值,如果value 为 null 则 Remove 掉
     public static bool CheckID(int _id)
     {
-
         if (ObjIDDic.ContainsKey(_id))
         {
             if (ObjIDDic[_id] != null)
@@ -179,7 +184,7 @@ public class ObjID : MonoBehaviour
         return false;
     }
 
-    public static bool Check_IDValue(int _id, GameObject go)
+    public static bool Check_IDValue(int _id,GameObject go)
     {
         CheckID(_id);
         if (ObjIDDic.ContainsKey(_id))
@@ -205,22 +210,14 @@ public class ObjID : MonoBehaviour
 
 
     #endregion
-
-    public bool testBool;
-    public float testFloat;
+    
     public int ID;
-    [ContextMenu("自动生成ID")]
-    public void CreatID()
-    {
-        ID = this.gameObject.GetInstanceID();
-    }
-
     [ContextMenu("随机一个ID")]
     public void RandomID()
     {
-        while (UpdateObj(ID, this.gameObject) == false)
+        while (UpdateObj(ID, this.gameObject)==false)
         {
-            ID = UnityEngine.Random.Range(0, 9999);
+            ID = UnityEngine.Random.Range(1000, 9999);
         }
     }
 
@@ -231,7 +228,7 @@ public class ObjID : MonoBehaviour
         {
             while (AddDic(ID, this.gameObject) == false)
             {
-                ID = UnityEngine.Random.Range(0, 9999);
+                ID = UnityEngine.Random.Range(101, 9999);
             }
         }
     }
@@ -243,10 +240,9 @@ public class ObjID : MonoBehaviour
 
     public void DelThis()
     {
-        if (null == this)
-        {
-            DelObjIDDic(ID);
-        }
+
+         DelObjIDDic(ID);
+        
     }
     [ContextMenu("添加到字典")]
     public void AddThis()
@@ -261,29 +257,26 @@ public class ObjID : MonoBehaviour
     public void Awake()
     {
         InitID();
-        Debug.Log("_Awake");
-
+        //Debug.Log("_Awake");
+      
     }
 
-    public void Update()
+    public void OnEnable()
     {
+        //重新编译脚本后Dic会重置,这里重新添加一次
+        if (!Check_IDValue(ID,gameObject))
+        {
+            AddDic(ID,this.gameObject);
+        }
     }
+
     public void OnDestroy()
     {
-        Debug.Log("_Destroy");
         DelThis();
     }
 
 
     #endregion
 
-    #region TEST
 
-    private void EditorTest()
-    {
-        Debug.Log(testBool);
-        Debug.Log(testBool);
-    }
-
-    #endregion
 }

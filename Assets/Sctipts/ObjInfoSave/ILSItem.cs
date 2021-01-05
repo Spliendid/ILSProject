@@ -7,64 +7,33 @@
  *
  */
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-[RequireComponent(typeof(ObjID)), DisallowMultipleComponent]
+using System.Collections;
+//[RequireComponent(typeof(ObjID))]
 public class ILSItem : MonoBehaviour {
 
+    public bool isStartActive = true;
+
     [EnumFlagsAttribute]
-    public E_ILSTYPE _type;//需要存储的类型可多选
+    public E_ILSTYPE _type = E_ILSTYPE.TransformInfo;//需要存储的类型可多选
+
 
     public MatInfo[] MatInfoArray; 
 
-    private List<JsonTransClass> StrInfoList = new List<JsonTransClass>();//该对象需要存储的信息集合
+    public ClassReflectInfo[] ClassReflectArray;
+
+    public List<JsonTransClass> StrInfoList = new List<JsonTransClass>();//该对象需要存储的信息集合
 
     //获取信息存到StrInfoList里面
     public void GetObjInfo()
     {
-        StrInfoList.Clear();
-        //父物体信息存储
-        if ((_type & E_ILSTYPE.Parent)!=0)
-        {
-            ObjInfo_Parent objinfo = new ObjInfo_Parent();
-            JsonTransClass jsonTrans = new JsonTransClass();
-            StrInfoList.Add(objinfo.SaveInfo<ObjInfo_Parent>(gameObject));
-        }
-
-        //TransformInfo信息存储
-        if ((_type & E_ILSTYPE.TransformInfo)!=0)
-        {
-            ObjInfo_Transform objinfo = new ObjInfo_Transform();
-            JsonTransClass jsonTrans = new JsonTransClass();
-            StrInfoList.Add(objinfo.SaveInfo<ObjInfo_Transform>(gameObject));
-        }
-
-        //Mesh显示隐藏
-        if ((_type & E_ILSTYPE.MeshRender)!=0)
-        {
-            ObjInfo_Render objinfo = new ObjInfo_Render();
-            JsonTransClass jsonTrans = new JsonTransClass();
-            StrInfoList.Add(objinfo.SaveInfo<ObjInfo_Render>(gameObject));
-        }
-
-    
-        //StepItem材质球信息
-        if ((_type & E_ILSTYPE.MatInfo) != 0)
-        {
-            ObjInfo_Mat objinfo = new ObjInfo_Mat();
-            JsonTransClass jsonTrans = new JsonTransClass();
-            StrInfoList.Add(objinfo.SaveInfo<ObjInfo_Mat>(gameObject));
-        }
+       StrInfoList = JsonTransClass.GetAllSaveInfo(_type,gameObject);
     }
 
    
     //将该对象信息存到字典内
     public void SaveInfo(int step)
     {
-        if (!ILSManager._Instance.IsEditor)
-        {
-            return;
-        }
         GetObjInfo();
          List<JsonTransClass> listTemp = new List<JsonTransClass>( StrInfoList);
         string key = step.ToString();
@@ -82,20 +51,38 @@ public class ILSItem : MonoBehaviour {
     // Use this for initialization
     void Start () {
         ILSManager._Instance.SaveInfoHandler += SaveInfo;
+          StartCoroutine( WaitForEndOfFrame(()=>{
+            this.gameObject.SetActive(isStartActive);
+        }));
     }
 
-    // Update is called once per frame
-    void Update () {
-	
-	}
+    private IEnumerator WaitForEndOfFrame(System.Action ac)
+    {
+        yield return new WaitForEndOfFrame();
+        ac();
+    }
     #endregion
 
     #region Test
-    [ContextMenu("getJson")]
-    void GetJson()
+    // [ContextMenu("getJson")]
+    // void GetJson()
+    // {
+    //     GetObjInfo();
+    // }
+
+    [ContextMenu("Save")]
+    void Save()
     {
         GetObjInfo();
-      //  Debug.Log(JsonUtility.ToJson(new Serialization<ObjInfoBase>(new List<ObjInfoBase> { infoList[0] as ObjInfo_Transform })));
+    }
+
+    [ContextMenu("Load")]
+    void Load()
+    {
+        for(int i = 0;i<StrInfoList.Count;i++)
+        {
+            StrInfoList[i].LoadInfo();
+        }
     }
 
     #endregion

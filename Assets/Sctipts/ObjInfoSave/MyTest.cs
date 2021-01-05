@@ -46,17 +46,9 @@ public class MyTest : MonoBehaviour {
     private void LoadStep()
     {
         ILSManager._Instance.LoadInfo();
-        ILSManager._Instance.LoadStepInfo(step);
+        ILSManager.LoadStepInfo(step);
     }
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        tesobj.transform.Rotate(Vector3.one,Time.deltaTime*20);
-	}
+	 
 
     private void OnGUI()
     {

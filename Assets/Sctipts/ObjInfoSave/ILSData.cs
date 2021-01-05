@@ -20,10 +20,12 @@ public class EnumFlagsAttribute : PropertyAttribute
 public enum E_ILSTYPE
 {
     TransformInfo = 1,//位置信息
-    Parent = 2,//父物体信息
-    MeshRender = 4,//MeshRender开关
-    StepItem = 8,//StepItem信息
-    MatInfo = 16,//材质信息
+    Parent = 1<<1,//父物体信息
+    MeshRender = 1<<2,//MeshRender开关
+    StepItem = 1<<3,//StepItem信息
+    MatInfo = 1<<4,//材质信息
+    TextMesh = 1<<5,//TextMesh的Text
+    Reflection = 1<<6,//类反射
 }
 
 public class ILSData
@@ -46,6 +48,58 @@ public class JsonTransClass
     {
         ObjInfoBase objinfo = JsonUtility.FromJson(this.JsonInfo, Type.GetType(this.TypeName)) as ObjInfoBase;
         objinfo.LoadInfo();
+    }
+
+    //遍历获取信息
+    public static List<JsonTransClass> GetAllSaveInfo(E_ILSTYPE iLSTYPE,GameObject go)
+    {
+        List<JsonTransClass> ls = new List<JsonTransClass>();
+        
+         //父物体信息存储
+        if ((iLSTYPE & E_ILSTYPE.Parent)!=0)
+        {
+            ObjInfo_Parent objinfo = new ObjInfo_Parent();
+            ls.Add(objinfo.SaveInfo<ObjInfo_Parent>(go));
+        }
+
+        //TransformInfo信息存储
+        if ((iLSTYPE & E_ILSTYPE.TransformInfo)!=0)
+        {
+            ObjInfo_Transform objinfo = new ObjInfo_Transform();
+            ls.Add(objinfo.SaveInfo<ObjInfo_Transform>(go));
+        }
+
+        //Mesh显示隐藏
+        if ((iLSTYPE & E_ILSTYPE.MeshRender)!=0)
+        {
+            ObjInfo_MeshRender objinfo = new ObjInfo_MeshRender();
+            ls.Add(objinfo.SaveInfo<ObjInfo_MeshRender>(go));
+        }
+
+    
+        //材质球信息
+        if ((iLSTYPE & E_ILSTYPE.MatInfo) != 0)
+        {
+            ObjInfo_Mat objinfo = new ObjInfo_Mat();
+            ls.Add(objinfo.SaveInfo<ObjInfo_Mat>(go));
+        }
+
+
+        //TextMesh信息
+        if ((iLSTYPE & E_ILSTYPE.TextMesh) != 0)
+        {
+            ObjInfo_TextMesh objinfo = new ObjInfo_TextMesh();
+            ls.Add(objinfo.SaveInfo<ObjInfo_TextMesh>(go));
+        }
+
+          //反射信息
+        if ((iLSTYPE & E_ILSTYPE.Reflection) != 0)
+        {
+            ObjInfo_Reflection objinfo = new ObjInfo_Reflection();
+            ls.Add(objinfo.SaveInfo<ObjInfo_Reflection>(go));
+        }
+
+        return ls;
     }
 }
 

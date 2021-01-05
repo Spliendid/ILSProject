@@ -14,16 +14,21 @@ public class MatInfo
 
     public void SetValue(GameObject go)
     {
+        MeshRenderer mr = go.GetComponent<MeshRenderer>();
+        if (mr == null)
+        {
+            return;
+        }
         switch (propertyType)
         {
             case E_MatPropertyType.Float:
-                go.GetComponent<MeshRenderer>().materials[MatID].SetFloat(PropertyName,float.Parse(Value));
+                mr.materials[MatID].SetFloat(PropertyName,float.Parse(Value));
                 break;
             case E_MatPropertyType.Color:
                 Color color  = new Color();
                 if (ColorUtility.TryParseHtmlString(Value,out color))
                 {
-                    go.GetComponent<MeshRenderer>().materials[MatID].SetColor(PropertyName,color);
+                    mr.materials[MatID].SetColor(PropertyName,color);
                 }
 
                 break;
@@ -34,18 +39,28 @@ public class MatInfo
 
     public void GetValue(GameObject go)
     {
+
+        MeshRenderer mr = go.GetComponent<MeshRenderer>();
+        if (mr == null)
+        {
+            return;
+        }
+            
         switch (propertyType)
         {
             case E_MatPropertyType.Float:
-                Value = go.GetComponent<MeshRenderer>().materials[MatID].GetFloat(PropertyName).ToString();
+                Debug.Log(go.name,go);
+                Value = mr.materials[MatID].GetFloat(PropertyName).ToString();
                 break;
             case E_MatPropertyType.Color:
-             var color = go.GetComponent<MeshRenderer>().materials[MatID].GetColor(PropertyName);
+             var color = mr.materials[MatID].GetColor(PropertyName);
                 Value ="#"+ColorUtility.ToHtmlStringRGBA(color);
                 break;
             default:
                 break;
         }
+      
+
        
     }
 }

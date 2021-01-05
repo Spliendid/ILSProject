@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEditor;
+using UnityEditor.Callbacks;
+using System.IO;
+using System.Text;
 public class IDObjTool {
 #if UNITY_EDITOR
-    #region TEST
     //清空字典
     [MenuItem("Tools/IDManager/CleanDic")]
     public static void ClenDic()
@@ -50,6 +53,37 @@ public class IDObjTool {
 //         EditorWindow.GetWindow(typeof(FindObjWindow));
 //     }
 
-    #endregion
+     [MenuItem("Tools/IDManager/IDDic2Json")]
+    public static void IDDic2Json()
+    {
+        string path = Application.dataPath+"/Editor/DicJson.json";
+        // string json = LitJson.JsonMapper.ToJson(ObjID.ObjIDDic);
+        StringBuilder sb = new StringBuilder();
+        sb.Append("{\n");
+        foreach (KeyValuePair<int,GameObject> item in ObjID.ObjIDDic)
+        {
+            sb.Append($"\"{item.Key}\":\"{item.Value.name}\",\n");
+        }
+        sb.Remove(sb.Length-2,1);
+        sb.Append("}");
+        
+        string json = sb.ToString();
+        Debug.Log(json);
+        ILSTool.WriteData(path,json);
+    }
+
+      [OnOpenAssetAttribute(1)]
+    public static bool step0(int instanceID, int line)
+    {
+       string path =  AssetDatabase.GetAssetPath(instanceID);
+        if (path.EndsWith(".unity"))
+        {
+            ClenDic();
+            Debug.Log("<color=green><size=18>加载场景，ObjID字典清空</size></color>");
+
+        }
+        return false; // we did not handle the open
+    }
+
 #endif
 }

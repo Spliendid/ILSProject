@@ -1,19 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEditor;
 public class FindObjWindow : EditorWindow{
     string id = "";
     string info = "";
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
+ 
     private void OnGUI()
     {
         id = EditorGUILayout.TextField("请输入要查询的ID", id);
