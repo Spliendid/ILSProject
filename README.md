@@ -1,8 +1,8 @@
 ## ILS场景序列化
-### ObjID
+### 1.ObjID
 挂载`ObjID`,将会自动分配一个id
 
-### ILSItem
+### 2.ILSItem
 对需要序列化保存和恢复信息的物体挂载`ILSItem`  
 
  ![image](https://note.youdao.com/yws/public/resource/68728237445a12c97b77cf6139824b19/3567508969214ADD9C8AA0A3B844F955?ynotemdtimestamp=1627557027442)
@@ -19,10 +19,10 @@
     * **ClassNmae**：类名
     * **FieldName**：字段或属性的名字
     * **ClassType**：支持的几种类型
-### 序列化和反序列化
+### 3.序列化和反序列化
 1. **序列化**：调用`ILSManager.SaveInfo(key)`将场景中所有挂载`ILSItem`的物体序列化指定信息，存入字典中
 2. **反序列化**：调用` ILSManager.LoadStepInfo(key)`，反序列化恢复场景信息
-### Tools  
+### 4.Tools  
 ![image](https://note.youdao.com/yws/public/resource/68728237445a12c97b77cf6139824b19/5917E418E22C478597124FC480356A00?ynotemdtimestamp=1627557027442)
 1. **CleanDic**:清空当前中存储的所有ID信息
 2. **IDDic2Json**：将当前存储的所有ID信息序列化保存到text中
